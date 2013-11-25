@@ -64,6 +64,29 @@
     [self setSelectedIndex:[self selectedIndex]];
 }
 
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    
+    CGSize viewSize = self.view.frame.size;
+    CGFloat tabBarHeight = CGRectGetHeight([[self tabBar] frame]);
+    if (!tabBarHeight) {
+        tabBarHeight = 49;
+    }
+    [[self tabBar] setFrame:CGRectMake(0, viewSize.height, viewSize.width, tabBarHeight)];
+    [[self contentView] setFrame:CGRectMake(0, 0, viewSize.width, viewSize.height)];
+    
+    [UIView animateWithDuration:0.2 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [[self tabBar] setFrame:CGRectMake(0, viewSize.height - tabBarHeight, viewSize.width, tabBarHeight)];
+        [[self contentView] setFrame:CGRectMake(0, 0, viewSize.width, viewSize.height -
+                                                [[self tabBar] minimumContentHeight])];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
 - (NSUInteger)supportedInterfaceOrientations {
     UIInterfaceOrientationMask orientationMask = UIInterfaceOrientationMaskAll;
     for (UIViewController *viewController in [self viewControllers]) {
